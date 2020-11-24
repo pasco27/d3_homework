@@ -1,7 +1,7 @@
 // @TODO: YOUR CODE HERE!
 
 // Starting from 16.3.2 example ... copying directly the arrangement for svg setup
-// Define SVG area dimensions
+// Define SVG area dimensions, basically chart sizing from here to 30
 var svgWidth = 960;
 var svgHeight = 660;
 
@@ -29,8 +29,26 @@ var svg = d3
 var chartGroup = svg.append("g")
     .attr("transform", `translate(${chartMargin.left}, ${chartMargin.top})`);
 
-// Load data from hours-of-tv-watched.csv
-d3.csv("hours-of-tv-watched.csv").then(function (tvData) {
+// Load data 
+d3.csv("assets/data/data.csv").then(function (Data) {
+    console.log(Data);
+
+}).catch(function (error) {
+    console.log(error);
+});
 
 
-}
+
+    // // log a list of names
+    // var names = Data.map(data => data.name);
+    // console.log("names", names);
+
+    // // Cast each hours value in tvData as a number using the unary + operator
+    // Data.forEach(function (data) {
+    //     data.hours = +data.hours;
+    //     console.log("Name:", data.name);
+    //     console.log("Hours:", data.hours);
+    // });
+// }).catch(function (error) {
+//     console.log(error);
+// });
