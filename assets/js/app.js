@@ -9,9 +9,10 @@ var svgHeight = 660;
 var chartMargin = {
     top: 30,
     right: 30,
-    bottom: 30,
-    left: 30
+    bottom: 60,
+    left: 60
 };
+
 
 // Define dimensions of the chart area
 var chartWidth = svgWidth - chartMargin.left - chartMargin.right;
@@ -19,10 +20,11 @@ var chartHeight = svgHeight - chartMargin.top - chartMargin.bottom;
 
 // Select body, append SVG area to it, and set the dimensions
 var svg = d3
-    .select("body")
+    .select("#scatter")
     .append("svg")
     .attr("height", svgHeight)
     .attr("width", svgWidth);
+
 
 // Append a group to the SVG area and shift ('translate') it to the right and down to adhere
 // to the margins set in the "chartMargin" object.
@@ -36,7 +38,7 @@ d3.csv("assets/data/data.csv").then(function (Data) {
     Data.forEach(function (State) {
 
         // Parse data
-        State.obesity = +State.obesity;
+        // State.obesity = +State.obesity;
         State.poverty = +State.poverty;
         State.smokes = +State.smokes;
 
@@ -75,7 +77,7 @@ d3.csv("assets/data/data.csv").then(function (Data) {
     // ==============================
     var circlesGroup = chartGroup.selectAll("circles")
         .data(Data)
-        // since there are none, we've created 52 placeholders that are now 'appendable'
+        // since there are none, we've created 52 placeholders that are now 'append-able'
         .enter()
 
     circlesGroup
@@ -86,6 +88,7 @@ d3.csv("assets/data/data.csv").then(function (Data) {
         .attr("fill", "pink")
         .attr("opacity", ".5");
 
+
     // creating the state text within bubble
     var circlesGroupText = circlesGroup
         .append("text")
@@ -95,9 +98,7 @@ d3.csv("assets/data/data.csv").then(function (Data) {
         .classed("stateText", true);
 
 
-
-
-    // Step 6: Initialize tool tip
+    // Initialize tool tip
     // ==============================
     var toolTip = d3.tip()
         .attr("class", "tooltip")
@@ -106,68 +107,40 @@ d3.csv("assets/data/data.csv").then(function (Data) {
             return (`${d.obesity}<br>State: ${d.state}<br>Smokes: ${d.smokes}`);
         });
 
-    // Step 7: Create tooltip in the chart
+
+    // Create tooltip in the chart
     // ==============================
     chartGroup.call(toolTip);
 
-    // Step 8: Create event listeners to display and hide the tooltip
-    // ==============================
-    circlesGroup.on("click", function (Data) {
-        toolTip.show(Data, this);
-    })
-        // onmouseout event
-        .on("mouseout", function (Data, index) {
-            toolTip.hide(Data);
-        });
+
+    // Create event listeners to display and hide the tooltip
+    // // ==============================
+    // circlesGroup.on("click", function (Data) {
+    //     toolTip.show(Data, this);
+    // })
+    // // on-mouseout event
+    // circlesGroup.on("mouseout", function (Data, index) {
+    //     toolTip.hide(Data);
+    // });
+
 
     // Create axes labels
-    chartGroup.append("text")
+    chartGroup.append("g")
+        .append("text")
         .attr("transform", "rotate(-90)")
-        .attr("y", 0 - chartMargin.left + 40)
+        .attr("y", 0 - chartMargin.left + 20)
         .attr("x", 0 - (chartHeight / 2))
-        .attr("dy", "1em")
-        .attr("class", "axisText")
+        // .attr("dy", "1em")
+        .attr("class", "aText")
         .text("Percentage of Smokers");
 
-    chartGroup.append("text")
-        .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + chartMargin.top + 30})`)
-        .attr("class", "axisText")
-        .text("Hair Metal Band Hair Length (inches)");
+    chartGroup.append("g")
+        .append("text")
+        .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + chartMargin.top + 20})`)
+        .attr("class", "aText")
+        .text("Obesity Percentage");
 
 
 }).catch(function (error) {
     console.log(error);
 });
-
-
-
-
-
-
-
-
-
-// // set up X scale
-// var xScale = d3.scaleLinear()
-//     .domain(d3.extent(Data, d => d.poverty))
-//     .range([0, svgWidth])
-
-
-// // set up y scale 
-// var yScale = d3.scaleLinear()
-//     .domain(d3.extent(Data, d => d.smokes))
-//     .range([svgHeight, 0])
-
-    // // log a list of names
-    // var names = Data.map(data => data.name);
-    // console.log("names", names);
-
-    // // Cast each hours value in tvData as a number using the unary + operator
-    // Data.forEach(function (data) {
-    //     data.hours = +data.hours;
-    //     console.log("Name:", data.name);
-    //     console.log("Hours:", data.hours);
-    // });
-// }).catch(function (error) {
-//     console.log(error);
-// });
