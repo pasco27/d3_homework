@@ -80,6 +80,7 @@ d3.csv("assets/data/data.csv").then(function (Data) {
         // since there are none, we've created 52 placeholders that are now 'append-able'
         .enter()
 
+    // appending the circles
     circlesGroup
         .append("circle")
         .attr("cx", d => xScale(d.obesity))
@@ -104,24 +105,30 @@ d3.csv("assets/data/data.csv").then(function (Data) {
         .attr("class", "tooltip")
         .offset([80, -60])
         .html(function (d) {
-            return (`${d.obesity}<br>State: ${d.state}<br>Smokes: ${d.smokes}`);
+            return (`State: ${d.state}<br> Obesity%: ${d.obesity}<br> Smokers%: ${d.smokes}`);
         });
 
 
     // Create tooltip in the chart
     // ==============================
-    chartGroup.call(toolTip);
+    // chartGroup.call(toolTip);
+    circlesGroupText.call(toolTip);
 
 
     // // Create event listeners to display and hide the tooltip
     // // ==============================
-    // circlesGroup.on("click", function (Data) {
+    // circlesGroupText.on("click", function (Data) {
     //     toolTip.show(Data, this);
     // })
-    // // on-mouseout event
-    // circlesGroup.on("mouseout", function (Data, index) {
-    //     toolTip.hide(Data);
-    // });
+
+    // Create "mouseover" event listener to display tooltip
+    circlesGroupText.on("mouseover", function (d) {
+        toolTip.show(d, this);
+    })
+    // Create "mouseout" event
+    circlesGroupText.on("mouseout", function (Data, index) {
+        toolTip.hide(Data);
+    });
 
 
     // Create axes labels
