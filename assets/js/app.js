@@ -85,7 +85,7 @@ d3.csv("assets/data/data.csv").then(function (Data) {
         .attr("cx", d => xScale(d.obesity))
         .attr("cy", d => yScale(d.smokes))
         .attr("r", "15")
-        .attr("fill", "pink")
+        .attr("fill", "blue")
         .attr("opacity", ".5");
 
 
@@ -113,7 +113,7 @@ d3.csv("assets/data/data.csv").then(function (Data) {
     chartGroup.call(toolTip);
 
 
-    // Create event listeners to display and hide the tooltip
+    // // Create event listeners to display and hide the tooltip
     // // ==============================
     // circlesGroup.on("click", function (Data) {
     //     toolTip.show(Data, this);
